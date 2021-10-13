@@ -38,7 +38,16 @@ filings <- function() {
         ),
         encode = "json"
     )
-    parsed <- jsonlite::fromJSON(httr::content(response, "text"),
-        simplifyVector = FALSE
-    )
+    parsed <- jsonlite::fromJSON(httr::content(response, "text"))
+    for (column in c(
+        "filing_date",
+        "calcbench_accepted",
+        "period_end_date",
+        "calcbench_finished_load"
+    )) {
+        parsed[, column] <- as.POSIXct(parsed[, column],
+            format = "%Y-%m-%dT%H:%M:%OS"
+        )
+    }
+    return(parsed)
 }
