@@ -9,7 +9,7 @@ login <- function() {
         encode = "json"
     )
 
-    response_text <- content(response)
+    response_text <- httr::content(response)
 
     if (response_text != "TRUE") {
         stop("Incorrect Username/password", call. = FALSE)
@@ -41,6 +41,6 @@ filings <- function() {
     parsed <- jsonlite::fromJSON(content(response, "text"),
         simplifyVector = FALSE
     )
-    response_text <- content(response)
+    response_text <- httr::content(response)
     print(response_text)
 }
