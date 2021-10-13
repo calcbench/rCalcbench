@@ -38,9 +38,7 @@ filings <- function() {
         ),
         encode = "json"
     )
-    parsed <- jsonlite::fromJSON(content(response, "text"),
+    parsed <- jsonlite::fromJSON(httr::content(response, "text"),
         simplifyVector = FALSE
     )
-    response_text <- httr::content(response)
-    print(response_text)
 }
