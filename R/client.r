@@ -18,20 +18,31 @@ login <- function() {
 
 #' Get filings
 #' @export
-filings <- function() {
+filings <- function(entire_universe = NULL,
+                    company_identifiers = NULL,
+                    start_date = NULL,
+                    end_date = NULL) {
     login()
+    period_parameters <- list()
+    if (!(missing(start_date) && missing(end_date))) {
+        period_parameters <- c(
+            periodParameters,
+            list(
+                periodParamters = list(
+                    endDate = end_date,
+                    startDate = start_date
+                )
+            )
+        )
+    }
+
     response <- httr::POST("https://www.calcbench.com/api/filingsV2",
         body = list(
             companiesParameters = list(
-                entireUniverse = TRUE
+                entireUniverse = entire_universe,
+                companyIdentifiers = company_identifiers
             ),
-            periodParameters = list(
-                dateRange = list(
-                    endDate = "2021-10-12",
-                    startDate = "2021-10-10"
-                ),
-                periodType = "dateRange"
-            ),
+            periodParameters = period_parameters,
             pageParameters = list(
                 includePerformance = FALSE
             )
